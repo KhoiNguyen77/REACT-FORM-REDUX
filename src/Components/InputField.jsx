@@ -13,7 +13,7 @@ class InputField extends Component {
     // eslint-disable-next-line default-case
     switch (dataType) {
       case "letter": {
-        let regexLetter = /^[a-zA-Z]+$/;
+        let regexLetter = /^[a-zA-Z\s]*$/;
         if (!regexLetter.test(value.trim())) {
           message = id + ' must be letters';
         }
@@ -38,6 +38,17 @@ class InputField extends Component {
     }
     if (value.trim() == "") {
       message = id + " can't be blank";
+    }
+        if (id == "key") {
+     let duplicateKey =  this.props.students.find(student => student.key == e.target.value)
+        if (duplicateKey) {
+          message = id + " has exists"
+          const action= {
+            type: "HANLDE_KEY",
+            payload: {message, id}
+          }
+          this.props.dispatch(action);
+        }
     }
     const action = {
       type: "HANDLE_CHANGE",
@@ -159,6 +170,8 @@ class InputField extends Component {
 }
 
 const mapStateToProps = state => ({
+  
+  students: state.students,
   student: state.student,
   errors: state.errors,
   disabled: state.disabled

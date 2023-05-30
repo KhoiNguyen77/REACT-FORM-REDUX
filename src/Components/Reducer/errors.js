@@ -28,6 +28,10 @@ export const errors = (state = initialState, action) => {
         case "HANDLE_UPDATE": {
             let errors = {...initialState};
             state = errors
+        }; break;
+        case "HANDLE_KEY": {
+            let errors = {...state};
+            errors[action.payload.id] = action.payload.message
         }
     }
     return state
